@@ -83,3 +83,26 @@ test('should return 16 when input is "//:\\n2,3:4\\n7"', () => {
 test('should return 16 when input is "//?\\n2\\n3?4?7"', () => {
 	expect(add('//?\n2\n3?4?7')).toBe(16)
 })
+
+//Step 5: Throw error when negative numbers are passed
+test('should throw error when input is "1,2,3,-5"', () => {
+	expect(() => add('1,2,3,-5')).toThrow('negative numbers not allowed -5')
+})
+
+test('should throw error when input is "2,-1,3,4"', () => {
+	expect(() => add('2,-1,3,4')).toThrow('negative numbers not allowed -1')
+})
+
+test('should throw error when input is "2,-3,-5"', () => {
+	expect(() => add('2,-3,-5')).toThrow('negative numbers not allowed -3,-5')
+})
+
+test('should throw error when input is "2,-3,6,-7"', () => {
+	expect(() => add('2,-3,6,-7')).toThrow('negative numbers not allowed -3,-7')
+})
+
+test('should throw error when input is "2,3,-6,7,-10,-23,-45"', () => {
+	expect(() => add('2,3,-6,7,-10,-23,-45')).toThrow(
+		'negative numbers not allowed -6,-10,-23,-45',
+	)
+})
