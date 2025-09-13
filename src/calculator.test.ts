@@ -62,3 +62,24 @@ test('should return 16 when input is "2,3\\n4\\n7"', () => {
 test('should return 16 when input is "2\\n3\\n4\\n7"', () => {
 	expect(add('2\n3\n4\n7')).toBe(16)
 })
+
+// Step 4
+test('should return 9 when input is "//;\\n2;3,4"', () => {
+	expect(add('//;\n2;3,4')).toBe(9)
+})
+
+test('should return 9 when input is "//#\\n2\\n3#4"', () => {
+	expect(add('//#\n2\n3#4')).toBe(9)
+})
+
+test('should return 9 when input is "//@\\n2,3@4"', () => {
+	expect(add('//@\n2,3@4')).toBe(9)
+})
+
+test('should return 16 when input is "//:\\n2,3:4\\n7"', () => {
+	expect(add('//:\n2,3:4\n7')).toBe(16)
+})
+
+test('should return 16 when input is "//?\\n2\\n3?4?7"', () => {
+	expect(add('//?\n2\n3?4?7')).toBe(16)
+})
