@@ -43,6 +43,16 @@ const getUpdatedExpression = (
 		: expression
 }
 
+const getNumbersArray = (
+	expression: string,
+	delimiterRegExp: RegExp,
+): number[] => {
+	return expression
+		.split(delimiterRegExp)
+		.map((num) => Number(num))
+		.filter((num) => !isNaN(num) && num <= 1000)
+}
+
 const add = (expression: string): number => {
 	if (!expression.trim()) return 0
 
@@ -55,9 +65,7 @@ const add = (expression: string): number => {
 		customDelimiterRegExMatchArray,
 	)
 
-	const numbersArray = updatedExpression
-		.split(delimiterRegExp)
-		.map((num) => Number(num))
+	const numbersArray = getNumbersArray(updatedExpression, delimiterRegExp)
 
 	checkIfNegativeNumbersPresent(numbersArray)
 
