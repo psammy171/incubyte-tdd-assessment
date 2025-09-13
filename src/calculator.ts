@@ -1,46 +1,30 @@
-const getCustomDelimiters = (expression: string): string | undefined => {
-	const customDelimiterRegEx = expression.match(/\/\/(.)\n/)
+const getDelimiters = (
+	customDelimiterRegExMatchArray: RegExpMatchArray | null,
+): string[] => {
+	const delimiters = ['\n', ',']
 
-	return customDelimiterRegEx ? customDelimiterRegEx[1] : undefined
-}
-
-const getDelimiterRegExPattern = (expression: string): RegExp => {
-	const defaultDelimiters = ['\n', ',']
-
-	const customDelimiter = getCustomDelimiters(expression)
-
-	if (customDelimiter) {
-		defaultDelimiters.push(customDelimiter)
+	if (customDelimiterRegExMatchArray) {
+		delimiters.push(customDelimiterRegExMatchArray[1]!)
 	}
 
-	const escapedDelimiters = defaultDelimiters.map((d) =>
+	return delimiters
+}
+
+const getDelimiterRegExp = (
+	customDelimiterRegExMatchArray: RegExpMatchArray | null,
+): RegExp => {
+	const delimiters = getDelimiters(customDelimiterRegExMatchArray)
+
+	const escapedDelimiters = delimiters.map((d) =>
 		d.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
 	)
 
-	const ignoreStart = customDelimiter
-		? `(?:^//${escapedDelimiters[escapedDelimiters.length - 1]}\\n)?`
-		: ''
-
-	const pattern = `${ignoreStart}[${escapedDelimiters.join('')}]`
+	const pattern = `[${escapedDelimiters.join('')}]`
 
 	return new RegExp(pattern, 'g')
 }
 
-const add = (expression: string): number => {
-	if (!expression.trim()) return 0
-
-	const delimiterRegExPattern = getDelimiterRegExPattern(expression)
-
-	const customDelimiter = expression.match(/\/\/(.)\n/)
-
-	const updatedExpression = customDelimiter
-		? expression.slice(customDelimiter[0].length)
-		: expression
-
-	const numbersArray = updatedExpression
-		.split(delimiterRegExPattern)
-		.map((num) => Number(num))
-
+const checkIfNegativeNumbersPresent = (numbersArray: number[]): void => {
 	const negativeNumbers = numbersArray.filter((num) => num < 0)
 
 	if (negativeNumbers.length > 0) {
@@ -48,6 +32,34 @@ const add = (expression: string): number => {
 			`negative numbers not allowed ${negativeNumbers.join(',')}`,
 		)
 	}
+}
+
+const getUpdatedExpression = (
+	expression: string,
+	customDelimiterRegExMatchArray: RegExpMatchArray | null,
+): string => {
+	return customDelimiterRegExMatchArray
+		? expression.slice(customDelimiterRegExMatchArray[0].length)
+		: expression
+}
+
+const add = (expression: string): number => {
+	if (!expression.trim()) return 0
+
+	const customDelimiterRegExMatchArray = expression.match(/\/\/(.)\n/)
+
+	const delimiterRegExp = getDelimiterRegExp(customDelimiterRegExMatchArray)
+
+	const updatedExpression = getUpdatedExpression(
+		expression,
+		customDelimiterRegExMatchArray,
+	)
+
+	const numbersArray = updatedExpression
+		.split(delimiterRegExp)
+		.map((num) => Number(num))
+
+	checkIfNegativeNumbersPresent(numbersArray)
 
 	return numbersArray.reduce((sum, n) => sum + n, 0)
 }
