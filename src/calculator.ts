@@ -6,10 +6,12 @@ const getDelimiters = (
 	if (customDelimiterRegExMatchArray) {
 		if (customDelimiterRegExMatchArray[1]) {
 			delimiters.push(customDelimiterRegExMatchArray[1])
-		}
-
-		if (customDelimiterRegExMatchArray[2]) {
-			delimiters.push(customDelimiterRegExMatchArray[2])
+		} else if (customDelimiterRegExMatchArray[2]) {
+			const bracketSection = customDelimiterRegExMatchArray[0]
+			const subDelimiters = [
+				...bracketSection.matchAll(/\[(.+?)\]/g),
+			].map((x) => x[1]!)
+			delimiters.push(...subDelimiters)
 		}
 	}
 
@@ -63,7 +65,7 @@ const add = (expression: string): number => {
 	if (!expression.trim()) return 0
 
 	const customDelimiterRegExMatchArray = expression.match(
-		/\/\/(?:\[(.+?)\]|(.))\n/,
+		/\/\/(?:(.)|(?:\[(.+?)\])+)\n/,
 	)
 
 	const delimiterRegExp = getDelimiterRegExp(customDelimiterRegExMatchArray)
