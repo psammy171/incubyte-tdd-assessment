@@ -4,7 +4,13 @@ const getDelimiters = (
 	const delimiters = ['\n', ',']
 
 	if (customDelimiterRegExMatchArray) {
-		delimiters.push(customDelimiterRegExMatchArray[1]!)
+		if (customDelimiterRegExMatchArray[1]) {
+			delimiters.push(customDelimiterRegExMatchArray[1])
+		}
+
+		if (customDelimiterRegExMatchArray[2]) {
+			delimiters.push(customDelimiterRegExMatchArray[2])
+		}
 	}
 
 	return delimiters
@@ -56,7 +62,9 @@ const getNumbersArray = (
 const add = (expression: string): number => {
 	if (!expression.trim()) return 0
 
-	const customDelimiterRegExMatchArray = expression.match(/\/\/(.+)\n/)
+	const customDelimiterRegExMatchArray = expression.match(
+		/\/\/(?:\[(.+?)\]|(.))\n/,
+	)
 
 	const delimiterRegExp = getDelimiterRegExp(customDelimiterRegExMatchArray)
 
