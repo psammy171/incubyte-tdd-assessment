@@ -106,3 +106,24 @@ test('should throw error when input is "2,3,-6,7,-10,-23,-45"', () => {
 		'negative numbers not allowed -6,-10,-23,-45',
 	)
 })
+
+// Step 6: Exclude numbers greater than 1000
+test('should return 9 when input is "//;\\n2;3,4,1001"', () => {
+	expect(add('//;\n2;3,4,1001')).toBe(9)
+})
+
+test('should return 9 when input is "//#\\n2\\n3#4,3001"', () => {
+	expect(add('//#\n2\n3#4,3001')).toBe(9)
+})
+
+test('should return 209 when input is "//@\\n2,3@4,200,1001"', () => {
+	expect(add('//@\n2,3@4, 200,1001')).toBe(209)
+})
+
+test('should return 1016 when input is "//:\\n2,3:4\\n7,1000,1001"', () => {
+	expect(add('//:\n2,3:4\n7,1000,1001')).toBe(1016)
+})
+
+test('should return 16 when input is "//?\\n2\\n3?4?7,900"', () => {
+	expect(add('//?\n2\n3?4?7,900')).toBe(916)
+})
