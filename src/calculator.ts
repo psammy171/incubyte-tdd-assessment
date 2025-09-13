@@ -56,7 +56,7 @@ const getNumbersArray = (
 const add = (expression: string): number => {
 	if (!expression.trim()) return 0
 
-	const customDelimiterRegExMatchArray = expression.match(/\/\/(.)\n/)
+	const customDelimiterRegExMatchArray = expression.match(/\/\/(.+)\n/)
 
 	const delimiterRegExp = getDelimiterRegExp(customDelimiterRegExMatchArray)
 
