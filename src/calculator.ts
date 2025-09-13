@@ -37,11 +37,19 @@ const add = (expression: string): number => {
 		? expression.slice(customDelimiter[0].length)
 		: expression
 
-	// Split by comma, convert each part to number, then sum
-	return updatedExpression
+	const numbersArray = updatedExpression
 		.split(delimiterRegExPattern)
 		.map((num) => Number(num))
-		.reduce((sum, n) => sum + n, 0)
+
+	const negativeNumbers = numbersArray.filter((num) => num < 0)
+
+	if (negativeNumbers.length > 0) {
+		throw new Error(
+			`negative numbers not allowed ${negativeNumbers.join(',')}`,
+		)
+	}
+
+	return numbersArray.reduce((sum, n) => sum + n, 0)
 }
 
 export { add }
