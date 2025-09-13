@@ -1,5 +1,6 @@
 import { add } from './index'
 
+// Step 1
 test('should return 0 when input is ""', () => {
 	expect(add('')).toBe(0)
 })
@@ -20,6 +21,7 @@ test('should return 5 when input is "2,3"', () => {
 	expect(add('2,3')).toBe(5)
 })
 
+// Step 2
 test('should return 6 when input is "1,2,3"', () => {
 	expect(add('1,2,3')).toBe(6)
 })
@@ -38,4 +40,25 @@ test('should return 18 when input is "2,3,6,7"', () => {
 
 test('should return 96 when input is "2,3,6,7,10,23,45"', () => {
 	expect(add('2,3,6,7,10,23,45')).toBe(96)
+})
+
+// Step 3
+test('should return 9 when input is "2\\n3,4"', () => {
+	expect(add('2\n3,4')).toBe(9)
+})
+
+test('should return 9 when input is "2\\n3\\n4"', () => {
+	expect(add('2\n3\n4')).toBe(9)
+})
+
+test('should return 9 when input is "2,3\\n4"', () => {
+	expect(add('2,3\n4')).toBe(9)
+})
+
+test('should return 16 when input is "2,3\\n4\\n7"', () => {
+	expect(add('2,3\n4\n7')).toBe(16)
+})
+
+test('should return 16 when input is "2\\n3\\n4\\n7"', () => {
+	expect(add('2\n3\n4\n7')).toBe(16)
 })
