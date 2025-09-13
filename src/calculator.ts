@@ -3,7 +3,7 @@ const add = (expression: string): number => {
 
 	// Split by comma, convert each part to number, then sum
 	return expression
-		.split(',')
+		.split(/[\n,]/)
 		.map((num) => Number(num))
 		.reduce((sum, n) => sum + n, 0)
 }
